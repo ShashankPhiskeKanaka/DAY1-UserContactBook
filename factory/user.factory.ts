@@ -1,6 +1,6 @@
-import { userControllerClass } from "../controller/user.controller.js";
-import { userMongoRepositoryClass } from "../repository/user/user.mongorepository.js";
-import { userServicesClass } from "../services/user.services.js";
+import { userControllerClass } from "../controller/user.controller";
+import { userMongoRepositoryClass } from "../repository/user/user.mongorepository";
+import { userServicesClass } from "../services/user.services";
 
 class userFactory {
     static create () {

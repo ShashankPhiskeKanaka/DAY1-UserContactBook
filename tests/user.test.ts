@@ -17,9 +17,7 @@ describe("User Service", () => {
     service = new userServicesClass(mockRepository);
   });
 
-  // ---------------------------
-  // CREATE USER
-  // ---------------------------
+
   describe("createUser", () => {
     it("should create user if not exists", async () => {
       const input = { email: "test@test.com" };
@@ -47,9 +45,7 @@ describe("User Service", () => {
     });
   });
 
-  // ---------------------------
-  // GET ALL
-  // ---------------------------
+
   describe("getAll", () => {
     it("should return all users", async () => {
       const users = [{ email: "a@test.com" }];
@@ -63,9 +59,6 @@ describe("User Service", () => {
     });
   });
 
-  // ---------------------------
-  // GET USER
-  // ---------------------------
   describe("get", () => {
     it("should return user if exists", async () => {
       const user = { email: "a@test.com" };
@@ -86,9 +79,6 @@ describe("User Service", () => {
     });
   });
 
-  // ---------------------------
-  // UPDATE
-  // ---------------------------
   describe("update", () => {
     it("should update user if exists", async () => {
       const user = { email: "a@test.com" };
@@ -111,9 +101,6 @@ describe("User Service", () => {
     });
   });
 
-  // ---------------------------
-  // DELETE
-  // ---------------------------
   describe("delete", () => {
     it("should delete user if exists", async () => {
       const user = { email: "a@test.com" };

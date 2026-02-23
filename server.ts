@@ -1,14 +1,11 @@
 import express from "express";
 import cookieparser from "cookie-parser";
-import dotenv from "dotenv";
 import helmet from "helmet";
 import { connectDb } from "./db/db";
 import { globalErrorHandler } from "./factory/error.factory";
 import { userRouter } from "./router/user.router";
 import { logger } from "./middleware/logger";
 import { config } from "./config/env";
-
-dotenv.config();
 
 const app = express();
 app.use(express.json());

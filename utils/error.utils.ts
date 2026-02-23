@@ -1,4 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
+import { logActivity } from "./logging.utils";
 
 class errorHandlerClass {
     controllerWrapper = (fn : any) => {
@@ -10,7 +11,7 @@ class errorHandlerClass {
 
 class globalErrorHandlerClass {
     handleError = (err : any, req : Request, res : Response, next : NextFunction) => {
-        console.log(`Internal server error status : ${err.status} with the message : ${err.message}`);
+        logActivity.error(err.status, err.message);
 
         return res.status(err.status).json({
             success : false,

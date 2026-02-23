@@ -3,7 +3,7 @@ import mongoose from "mongoose"
 interface baseUser {
     name? : string,
     email : string,
-    phonenumber? : number,
+    phonenumber : number,
     address? : string
 }
 
@@ -19,7 +19,7 @@ interface mongoUser extends baseUser, mongoose.Document{};
 const userModel = new mongoose.Schema<mongoUser>({
     name : { type : String, defualt : "NA" },
     email : { type : String, unique : true },
-    phonenumber : { type : Number, default : 0 },
+    phonenumber : { type : Number, unique : true },
     address : { type : String, default : "NA" }
 })
 

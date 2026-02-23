@@ -1,4 +1,4 @@
-import { errorHandlerClass, globalErrorHandlerClass } from "../utils/error.utils.js";
+import { errorHandlerClass, globalErrorHandlerClass } from "../utils/error.utils";
 
 class errorFactory {
     static createGlobalErrorHandler () {
