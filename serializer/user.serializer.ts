@@ -1,4 +1,4 @@
-import type { baseUser } from "../model/user.model.js";
+import type { baseUser } from "../model/user.model";
 
 class userSerializer {
     static serialize ( user : baseUser ) {

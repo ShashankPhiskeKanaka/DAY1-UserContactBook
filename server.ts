@@ -2,12 +2,11 @@ import express from "express";
 import cookieparser from "cookie-parser";
 import dotenv from "dotenv";
 import helmet from "helmet";
-import { connectDb } from "./db/db.js";
-import { globalErrorHandler } from "./factory/error.factory.js";
-import { authRouter } from "./router/auth.router.js";
-import { userRouter } from "./router/user.router.js";
-import { logger } from "./middleware/logger.js";
-import { config } from "./config/env.js";
+import { connectDb } from "./db/db";
+import { globalErrorHandler } from "./factory/error.factory";
+import { userRouter } from "./router/user.router";
+import { logger } from "./middleware/logger";
+import { config } from "./config/env";
 
 dotenv.config();
 
@@ -23,8 +22,6 @@ app.get("/", (req, res) => {
 })
 
 app.use(logger);
-
-app.use("/auth", authRouter);
 app.use("/user", userRouter);
 
 app.use(globalErrorHandler.handleError);

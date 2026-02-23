@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
-import type { userServicesClass } from "../services/user.services.js";
-import { userSerializer } from "../serializer/user.serializer.js";
+import type { userServicesClass } from "../services/user.services";
+import { userSerializer } from "../serializer/user.serializer";
 
 class userControllerClass {
     constructor ( private userService : userServicesClass ) {}

@@ -1,7 +1,7 @@
-import type { baseUser } from "../model/user.model.js";
-import type { userMongoRepositoryClass } from "../repository/user/user.mongorepository.js";
-import { serverError } from "../utils/error.utils.js";
-import { logActivity } from "../utils/logging.utils.js";
+import type { baseUser } from "../model/user.model";
+import type { userMongoRepositoryClass } from "../repository/user/user.mongorepository";
+import { serverError } from "../utils/error.utils";
+import { logActivity } from "../utils/logging.utils";
 
 class userServicesClass {
     constructor ( private userMethods : userMongoRepositoryClass ) {}

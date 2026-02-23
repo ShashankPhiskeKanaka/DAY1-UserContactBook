@@ -1,5 +1,5 @@
-import { User, type baseUser } from "../../model/user.model.js";
-import { userMethodsClass } from "./user.methods.js";
+import { User, type baseUser } from "../../model/user.model";
+import { userMethodsClass } from "./user.methods";
 
 class userMongoRepositoryClass extends userMethodsClass {
     create = async ( data : baseUser ) : Promise<baseUser> => {
