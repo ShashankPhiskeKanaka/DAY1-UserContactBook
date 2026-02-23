@@ -10,4 +10,10 @@ const createUserSchema = z.object({
     })
 })
 
-export { createUserSchema }
+const userSchema = z.object({
+    body : z.object({
+        email : z.string({ error : "Email is required" }).regex(emailRegex, { error : "Please provide a valid email" })
+    })
+})
+
+export { createUserSchema, userSchema }
