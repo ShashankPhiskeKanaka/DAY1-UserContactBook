@@ -1,0 +1,29 @@
+import mongoose from "mongoose"
+
+interface baseUser {
+    name? : string,
+    email : string,
+    phonenumber? : number,
+    address? : string
+}
+
+interface baseReturnUser {
+    name : string,
+    email : string,
+    phonenumber : string,
+    address : string
+}
+
+interface mongoUser extends baseUser, mongoose.Document{};
+
+const userModel = new mongoose.Schema<mongoUser>({
+    name : { type : String, defualt : "NA" },
+    email : { type : String, unique : true },
+    phonenumber : { type : Number, default : 0 },
+    address : { type : String, default : "NA" }
+})
+
+const User = mongoose.model("User", userModel);
+
+export type { baseUser, baseReturnUser }
+export { User };
