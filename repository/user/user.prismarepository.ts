@@ -19,9 +19,12 @@ class userPrismaRepositoryClass extends userMethodsClass {
     }
 
     update = async ( data : baseUser ) : Promise<baseUser> => {
-        const email = data.email
-        const users = await prisma.user.update({ where : { email }, data })
-        return users;
+        const user = await prisma.user.update({ where : { email : data.email }, data : {
+            name : data?.name,
+            address : data?.address,
+            phonenumber : data?.phonenumber
+        } })
+        return user;
     }
 
     delete = async ( email : string ) : Promise<baseUser> => {

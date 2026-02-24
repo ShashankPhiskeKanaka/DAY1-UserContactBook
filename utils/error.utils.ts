@@ -11,9 +11,9 @@ class errorHandlerClass {
 
 class globalErrorHandlerClass {
     handleError = (err : any, req : Request, res : Response, next : NextFunction) => {
-        logActivity.error(err.status, err.message);
+        logActivity.error(err.status ?? 500, err.message);
 
-        return res.status(err.status).json({
+        return res.status(err.status ?? 500).json({
             success : false,
             message : err.message
         });

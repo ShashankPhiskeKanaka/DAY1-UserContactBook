@@ -9,35 +9,49 @@ class userControllerClass {
         const user = await this.userService.createUser(req.body);
         const data = userSerializer.serialize(user);
 
-        return res.send(data);
+        return res.json({
+            success : true,
+            data : data
+        });
     }
 
     getUser = async ( req : Request, res : Response ) => {
         const user = await this.userService.get(req.body.email);
         const data = userSerializer.serialize(user);
-
-        return res.send(data);
+        return res.json({
+            success : true,
+            data : data
+        });
     }
 
     getAllUsers = async ( req : Request, res : Response ) => {
         const users = await this.userService.getAll();
         const data = userSerializer.serializeAll(users);
 
-        return res.send(data);
+        return res.json({
+            success : true,
+            data : data
+        });
     }
 
     updateUser = async ( req : Request, res : Response ) => {
         const user = await this.userService.update(req.body);
         const data = userSerializer.serialize(user);
 
-        return res.send(data);
+        return res.json({
+            success : true,
+            data : data
+        });
     }
 
     deleteUser = async ( req : Request, res : Response ) => {
         const user = await this.userService.delete(req.body.email);
         const data = userSerializer.serialize(user);
 
-        return res.send(data);
+        return res.json({
+            success : true,
+            data : data
+        });
     }
 }
 

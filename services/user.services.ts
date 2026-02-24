@@ -8,7 +8,7 @@ class userServicesClass {
     constructor ( private userMethods : userPrismaRepositoryClass ) {}
 
     createUser = async ( data : baseUser ) => {
-        this.checkExistence(data.email)
+        await this.checkExistence(data.email)
 
         const user = await this.userMethods.create(data);
 
@@ -33,7 +33,7 @@ class userServicesClass {
     }
 
     update = async ( data : baseUser ) => {
-        this.checkExistence(data.email);
+        await this.checkExistence(data.email);
 
         const user = await this.userMethods.update(data);
 
@@ -43,7 +43,7 @@ class userServicesClass {
     }
 
     delete = async ( email : string ) => {
-        this.checkExistence(email);
+        await this.checkExistence(email);
         const user = await this.userMethods.delete(email);
         if(!user.email) throw new serverError(400, "User does not exist");
 
