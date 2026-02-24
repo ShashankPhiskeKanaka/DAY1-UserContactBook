@@ -6,13 +6,14 @@ import { globalErrorHandler } from "./factory/error.factory";
 import { userRouter } from "./router/user.router";
 import { logger } from "./middleware/logger";
 import { config } from "./config/env";
+import { connectPrisma } from "./db/prisma";
 
 const app = express();
 app.use(express.json());
 app.use(cookieparser());
 app.use(helmet());
 
-connectDb();    
+connectPrisma();  
 
 app.get("/", (req, res) => {
     res.send("Hello");

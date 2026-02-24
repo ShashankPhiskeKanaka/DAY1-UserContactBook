@@ -1,10 +1,12 @@
 import mongoose from "mongoose"
 
 interface baseUser {
-    name? : string,
+    id : string,
+    name : string,
     email : string,
     phonenumber : number,
-    address? : string
+    address : string,
+    createdAt : Date
 }
 
 interface baseReturnUser {
