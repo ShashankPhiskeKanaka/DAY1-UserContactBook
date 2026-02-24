@@ -13,13 +13,13 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
+model Contact {
   id String @id @default(uuid())
   name String @default("NA")
   email String @unique
-  phonenumber Int
+  phonenumber String
   address String @default("NA")
   createdAt DateTime @default(now())
 
-  @@map("user")
+  @@map("contact")
 }

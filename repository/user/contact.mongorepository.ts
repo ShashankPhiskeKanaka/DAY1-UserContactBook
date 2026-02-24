@@ -1,24 +1,24 @@
-import { User, type baseUser } from "../../model/user.model";
-import { userMethodsClass } from "./user.methods";
+import { User, type baseContact } from "../../model/contact.model";
+import { contactMethodsClass } from "./contact.methods";
 
-class userMongoRepositoryClass extends userMethodsClass {
-    create = async ( data : baseUser ) : Promise<baseUser> => {
+class userMongoRepositoryClass extends contactMethodsClass {
+    create = async ( data : baseContact ) : Promise<baseContact> => {
         const user = new User(data);
         await user.save();
         return user;
     }
 
-    getAll = async () : Promise<baseUser[]> => {
+    getAll = async () : Promise<baseContact[]> => {
         const users = await User.find();
         return users;
     }
 
-    get = async (email: string): Promise<baseUser> => {
+    get = async (email: string): Promise<baseContact> => {
         const user = await User.findOne({ email : email });
-        return user ?? <baseUser>{};
+        return user ?? <baseContact>{};
     }
 
-    update = async ( data : baseUser ) : Promise<baseUser> => {
+    update = async ( data : baseContact ) : Promise<baseContact> => {
         const user = await User.findOne({ email : data.email });
 
         if(user != null){
@@ -27,12 +27,12 @@ class userMongoRepositoryClass extends userMethodsClass {
             user.phonenumber = data.phonenumber ?? user.phonenumber;
             await user.save();
         }
-        return user ?? <baseUser>{};
+        return user ?? <baseContact>{};
     }
 
-    delete = async ( email : string ) : Promise<baseUser> => {
+    delete = async ( email : string ) : Promise<baseContact> => {
         const user = await User.findOneAndDelete({ email : email });
-        return user ?? <baseUser>{};
+        return user ?? <baseContact>{};
     }
 }
 

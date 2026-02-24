@@ -1,4 +1,4 @@
-import { userServicesClass } from "../services/user.services"; 
+import { userServicesClass } from "../services/contact.services"; 
 import { serverError } from "../utils/error.utils";
 
 describe("User Service", () => {

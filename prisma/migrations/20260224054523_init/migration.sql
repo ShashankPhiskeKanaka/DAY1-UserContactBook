@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "user" ALTER COLUMN "name" SET DEFAULT 'NA',
-ALTER COLUMN "address" SET DEFAULT 'NA';
