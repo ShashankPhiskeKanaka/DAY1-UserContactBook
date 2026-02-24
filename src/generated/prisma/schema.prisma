@@ -15,10 +15,10 @@ datasource db {
 
 model User {
   id          String   @id @default(uuid())
-  name        String
+  name        String   @default("NA")
   email       String   @unique
   phonenumber Int
-  address     String
+  address     String   @default("NA")
   createdAt   DateTime @default(now())
 
   @@map("user")

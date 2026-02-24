@@ -2071,19 +2071,19 @@ export namespace Prisma {
 
   export type UserCreateInput = {
     id?: string
-    name: string
+    name?: string
     email: string
     phonenumber: number
-    address: string
+    address?: string
     createdAt?: Date | string
   }
 
   export type UserUncheckedCreateInput = {
     id?: string
-    name: string
+    name?: string
     email: string
     phonenumber: number
-    address: string
+    address?: string
     createdAt?: Date | string
   }
 
@@ -2107,10 +2107,10 @@ export namespace Prisma {
 
   export type UserCreateManyInput = {
     id?: string
-    name: string
+    name?: string
     email: string
     phonenumber: number
-    address: string
+    address?: string
     createdAt?: Date | string
   }
 

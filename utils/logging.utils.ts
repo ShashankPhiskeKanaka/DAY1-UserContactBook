@@ -1,3 +1,5 @@
+
+// logger class, activity and errors are logged using this
 class logActivityClass {
     log = (message : string) => {
         console.log(`Activity Log : ${message}`);

@@ -1,5 +1,6 @@
 import { errorHandlerClass, globalErrorHandlerClass } from "../utils/error.utils";
 
+// creates global error handler and errorhandler objects using their classes
 class errorFactory {
     static createGlobalErrorHandler () {
         const handler = new globalErrorHandlerClass();

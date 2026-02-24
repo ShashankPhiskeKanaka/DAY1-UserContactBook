@@ -1,5 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 
+
+// middleware logger which generates the execution time of the request
 const logger = (req : Request, res : Response, next : NextFunction) => {
     const start = Date.now();
     res.on("finish", () =>{

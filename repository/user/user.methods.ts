@@ -1,5 +1,7 @@
 import type { baseUser } from "../../model/user.model";
 
+// defined abstract class and methods that will be used by the repositories
+
 abstract class userMethodsClass {
     abstract create ( data : baseUser ) : Promise<baseUser>;
     abstract getAll () : Promise<baseUser[]>;

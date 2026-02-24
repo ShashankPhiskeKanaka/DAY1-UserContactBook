@@ -3,6 +3,7 @@ import { userMongoRepositoryClass } from "../repository/user/user.mongorepositor
 import { userPrismaRepositoryClass } from "../repository/user/user.prismarepository";
 import { userServicesClass } from "../services/user.services";
 
+// generates instances of all the layers of user
 class userFactory {
     static create () {
         const userRepo = new userPrismaRepositoryClass();

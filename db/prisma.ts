@@ -1,8 +1,11 @@
+import { config } from '../config/env'
 import { PrismaClient } from '../src/generated/prisma'
 import { PrismaPg } from '@prisma/adapter-pg'
 
+// prisma conneection methods and prisma object creation
+
 const adapter = new PrismaPg({
-  connectionString: process.env.DATABASE_URL!,
+  connectionString: config.dburl
 })
 
 const prisma = new PrismaClient({ adapter })

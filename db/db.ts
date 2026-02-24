@@ -1,6 +1,7 @@
 import { config } from "../config/env";
 import mongoose from "mongoose";
 
+// mongodb connection methods
 const connectDb = async () => {
     try {
         await mongoose.connect(config.dburl ?? "");

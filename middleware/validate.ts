@@ -2,6 +2,8 @@ import type { NextFunction, Request, Response } from "express";
 import z from "zod";
 import { logActivity } from "../utils/logging.utils";
 
+
+// zod validation middleware
 const validate = ( schema : z.ZodTypeAny ) => {
     return ( req : Request, res : Response, next : NextFunction ) => {
         const result = schema.safeParse({
