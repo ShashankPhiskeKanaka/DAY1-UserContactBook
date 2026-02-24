@@ -1,8 +1,8 @@
 import express from "express";
-import { contactFactory } from "../factory/contact.factory";
-import { errorHandler } from "../factory/error.factory";
-import { validate } from "../middleware/validate";
-import { createContactSchema, contactFetchSchema, contactSchema } from "../schema/contact.schema";
+import { contactFactory } from "../../factory/contact.factory";
+import { errorHandler } from "../../factory/error.factory";
+import { validate } from "../../middleware/validate";
+import { createContactSchema, contactFetchSchema, contactSchema } from "../../schema/contact.schema";
 
 // generating instances of user router and controller
 const contactRouter = express.Router();
