@@ -10,11 +10,28 @@ interface baseContact {
     createdAt : Date
 }
 
+interface pageinationData {
+    contacts : baseContact[],
+    nextCursor : string | undefined,
+    hasMoreData : boolean
+}
+
 interface baseReturnUser {
     name : string,
     email : string,
     phonenumber : string,
     address : string
+}
+
+interface auditData {
+    model : string,
+    action : string,
+    recordId : string,
+    before? : object | null,
+    after? : object | null,
+    metadata? : {
+        ip? : string,
+    } | null
 }
 
 interface mongoUser extends baseContact, mongoose.Document{};
@@ -28,5 +45,5 @@ const userModel = new mongoose.Schema<mongoUser>({
 
 const User = mongoose.model("User", userModel);
 
-export type { baseContact, baseReturnUser }
+export type { baseContact, baseReturnUser, pageinationData, auditData }
 export { User };

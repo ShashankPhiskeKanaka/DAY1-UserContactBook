@@ -1,6 +1,5 @@
 import { contactControllerClass } from "../controller/contact.controller";
-import { userMongoRepositoryClass } from "../repository/user/contact.mongorepository";
-import { contactPrismaRepositoryClass } from "../repository/user/contact.prismarepository";
+import { contactPrismaRepositoryClass } from "../repository/contact/contact.prismarepository";
 import { contactServicesClass } from "../services/contact.services";
 
 // generates instances of all the layers of user

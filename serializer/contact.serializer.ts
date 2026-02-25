@@ -6,6 +6,7 @@ class contactSerializer {
     // serializes a single user
     static serialize ( contact : baseContact ) {
         return {
+            id : contact.id,
             name : contact.name,
             phonenumber : contact.phonenumber,
             email : contact.email,

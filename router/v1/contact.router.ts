@@ -12,7 +12,7 @@ const contactController = contactFactory.create();
 contactRouter.get("/:email", errorHandler.controllerWrapper(validate(contactFetchSchema)) , errorHandler.controllerWrapper(contactController.getContact));
 
 // deletes an user, validates if email parameter is provided or not
-contactRouter.delete("/:email" , errorHandler.controllerWrapper(validate(contactFetchSchema)) , errorHandler.controllerWrapper(contactController.deleteContact));
+contactRouter.delete("/:id" , errorHandler.controllerWrapper(validate(contactFetchSchema)) , errorHandler.controllerWrapper(contactController.deleteContact));
 
 // updates an use, validates if data in request body is provided or not (email)
 contactRouter.patch("/", errorHandler.controllerWrapper(validate(contactSchema)) ,errorHandler.controllerWrapper(contactController.updateContact));

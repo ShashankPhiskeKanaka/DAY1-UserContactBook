@@ -23,3 +23,17 @@ model Contact {
 
   @@map("contact")
 }
+
+model AuditLog {
+    id  String    @id @default(cuid())
+    model String
+    action String 
+    recordId String
+    before Json?
+    after Json?
+    metadata Json?
+    performedAt DateTime  @default(now())
+
+    @@index([model, recordId])
+    @@map("auditlog")
+}

@@ -101,9 +101,25 @@ exports.Prisma.ContactScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.AuditLogScalarFieldEnum = {
+  id: 'id',
+  model: 'model',
+  action: 'action',
+  recordId: 'recordId',
+  before: 'before',
+  after: 'after',
+  metadata: 'metadata',
+  performedAt: 'performedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -111,9 +127,21 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 
 exports.Prisma.ModelName = {
-  Contact: 'Contact'
+  Contact: 'Contact',
+  AuditLog: 'AuditLog'
 };
 /**
  * Create the Client
@@ -123,14 +151,14 @@ const config = {
   "clientVersion": "7.4.1",
   "engineVersion": "55ae170b1ced7fc6ed07a15f110549408c501bb3",
   "activeProvider": "postgresql",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Contact {\n  id          String   @id @default(uuid())\n  name        String   @default(\"NA\")\n  email       String   @unique\n  phonenumber String\n  address     String   @default(\"NA\")\n  createdAt   DateTime @default(now())\n\n  @@map(\"contact\")\n}\n"
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Contact {\n  id          String   @id @default(uuid())\n  name        String   @default(\"NA\")\n  email       String   @unique\n  phonenumber String\n  address     String   @default(\"NA\")\n  createdAt   DateTime @default(now())\n\n  @@map(\"contact\")\n}\n\nmodel AuditLog {\n  id          String   @id @default(cuid())\n  model       String\n  action      String\n  recordId    String\n  before      Json?\n  after       Json?\n  metadata    Json?\n  performedAt DateTime @default(now())\n\n  @@index([model, recordId])\n  @@map(\"auditlog\")\n}\n"
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Contact\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phonenumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"contact\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Contact\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phonenumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"contact\"},\"AuditLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"model\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"action\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"recordId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"before\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"after\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"performedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"auditlog\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.parameterizationSchema = {
-  strings: JSON.parse("[\"where\",\"Contact.findUnique\",\"Contact.findUniqueOrThrow\",\"orderBy\",\"cursor\",\"Contact.findFirst\",\"Contact.findFirstOrThrow\",\"Contact.findMany\",\"data\",\"Contact.createOne\",\"Contact.createMany\",\"Contact.createManyAndReturn\",\"Contact.updateOne\",\"Contact.updateMany\",\"Contact.updateManyAndReturn\",\"create\",\"update\",\"Contact.upsertOne\",\"Contact.deleteOne\",\"Contact.deleteMany\",\"having\",\"_count\",\"_min\",\"_max\",\"Contact.groupBy\",\"Contact.aggregate\",\"AND\",\"OR\",\"NOT\",\"id\",\"name\",\"email\",\"phonenumber\",\"address\",\"createdAt\",\"equals\",\"in\",\"notIn\",\"lt\",\"lte\",\"gt\",\"gte\",\"not\",\"contains\",\"startsWith\",\"endsWith\",\"set\"]"),
-  graph: "KQkQCRoAACIAMBsAAAQAEBwAACIAMB0BAAAAAR4BACMAIR8BAAAAASABACMAISEBACMAISJAACQAIQEAAAABACABAAAAAQAgCRoAACIAMBsAAAQAEBwAACIAMB0BACMAIR4BACMAIR8BACMAISABACMAISEBACMAISJAACQAIQADAAAABAAgAwAABQAwBAAAAQAgAwAAAAQAIAMAAAUAMAQAAAEAIAMAAAAEACADAAAFADAEAAABACAGHQEAAAABHgEAAAABHwEAAAABIAEAAAABIQEAAAABIkAAAAABAQgAAAkAIAYdAQAAAAEeAQAAAAEfAQAAAAEgAQAAAAEhAQAAAAEiQAAAAAEBCAAACwAwAQgAAAsAMAYdAQAoACEeAQAoACEfAQAoACEgAQAoACEhAQAoACEiQAApACECAAAAAQAgCAAADgAgBh0BACgAIR4BACgAIR8BACgAISABACgAISEBACgAISJAACkAIQIAAAAEACAIAAAQACACAAAABAAgCAAAEAAgAwAAAAEAIA8AAAkAIBAAAA4AIAEAAAABACABAAAABAAgAxUAACUAIBYAACcAIBcAACYAIAkaAAAaADAbAAAXABAcAAAaADAdAQAbACEeAQAbACEfAQAbACEgAQAbACEhAQAbACEiQAAcACEDAAAABAAgAwAAFgAwFAAAFwAgAwAAAAQAIAMAAAUAMAQAAAEAIAkaAAAaADAbAAAXABAcAAAaADAdAQAbACEeAQAbACEfAQAbACEgAQAbACEhAQAbACEiQAAcACEOFQAAHgAgFgAAIQAgFwAAIQAgIwEAAAABJAEAAAAEJQEAAAAEJgEAAAABJwEAAAABKAEAAAABKQEAAAABKgEAIAAhKwEAAAABLAEAAAABLQEAAAABCxUAAB4AIBYAAB8AIBcAAB8AICNAAAAAASRAAAAABCVAAAAABCZAAAAAASdAAAAAAShAAAAAASlAAAAAASpAAB0AIQsVAAAeACAWAAAfACAXAAAfACAjQAAAAAEkQAAAAAQlQAAAAAQmQAAAAAEnQAAAAAEoQAAAAAEpQAAAAAEqQAAdACEIIwIAAAABJAIAAAAEJQIAAAAEJgIAAAABJwIAAAABKAIAAAABKQIAAAABKgIAHgAhCCNAAAAAASRAAAAABCVAAAAABCZAAAAAASdAAAAAAShAAAAAASlAAAAAASpAAB8AIQ4VAAAeACAWAAAhACAXAAAhACAjAQAAAAEkAQAAAAQlAQAAAAQmAQAAAAEnAQAAAAEoAQAAAAEpAQAAAAEqAQAgACErAQAAAAEsAQAAAAEtAQAAAAELIwEAAAABJAEAAAAEJQEAAAAEJgEAAAABJwEAAAABKAEAAAABKQEAAAABKgEAIQAhKwEAAAABLAEAAAABLQEAAAABCRoAACIAMBsAAAQAEBwAACIAMB0BACMAIR4BACMAIR8BACMAISABACMAISEBACMAISJAACQAIQsjAQAAAAEkAQAAAAQlAQAAAAQmAQAAAAEnAQAAAAEoAQAAAAEpAQAAAAEqAQAhACErAQAAAAEsAQAAAAEtAQAAAAEII0AAAAABJEAAAAAEJUAAAAAEJkAAAAABJ0AAAAABKEAAAAABKUAAAAABKkAAHwAhAAAAAS4BAAAAAQEuQAAAAAEAAAAAAxUABhYABxcACAAAAAMVAAYWAAcXAAgBAgECAwEFBgEGBwEHCAEJCgEKDAILDQMMDwENEQIOEgQREwESFAETFQIYGAUZGQk"
+  strings: JSON.parse("[\"where\",\"Contact.findUnique\",\"Contact.findUniqueOrThrow\",\"orderBy\",\"cursor\",\"Contact.findFirst\",\"Contact.findFirstOrThrow\",\"Contact.findMany\",\"data\",\"Contact.createOne\",\"Contact.createMany\",\"Contact.createManyAndReturn\",\"Contact.updateOne\",\"Contact.updateMany\",\"Contact.updateManyAndReturn\",\"create\",\"update\",\"Contact.upsertOne\",\"Contact.deleteOne\",\"Contact.deleteMany\",\"having\",\"_count\",\"_min\",\"_max\",\"Contact.groupBy\",\"Contact.aggregate\",\"AuditLog.findUnique\",\"AuditLog.findUniqueOrThrow\",\"AuditLog.findFirst\",\"AuditLog.findFirstOrThrow\",\"AuditLog.findMany\",\"AuditLog.createOne\",\"AuditLog.createMany\",\"AuditLog.createManyAndReturn\",\"AuditLog.updateOne\",\"AuditLog.updateMany\",\"AuditLog.updateManyAndReturn\",\"AuditLog.upsertOne\",\"AuditLog.deleteOne\",\"AuditLog.deleteMany\",\"AuditLog.groupBy\",\"AuditLog.aggregate\",\"AND\",\"OR\",\"NOT\",\"id\",\"model\",\"action\",\"recordId\",\"before\",\"after\",\"metadata\",\"performedAt\",\"equals\",\"in\",\"notIn\",\"lt\",\"lte\",\"gt\",\"gte\",\"not\",\"string_contains\",\"string_starts_with\",\"string_ends_with\",\"array_starts_with\",\"array_ends_with\",\"array_contains\",\"contains\",\"startsWith\",\"endsWith\",\"name\",\"email\",\"phonenumber\",\"address\",\"createdAt\",\"set\"]"),
+  graph: "TBEgCSoAAEMAMCsAAAQAECwAAEMAMC0BAAAAAUYBAD8AIUcBAAAAAUgBAD8AIUkBAD8AIUpAAEEAIQEAAAABACABAAAAAQAgCSoAAEMAMCsAAAQAECwAAEMAMC0BAD8AIUYBAD8AIUcBAD8AIUgBAD8AIUkBAD8AIUpAAEEAIQADAAAABAAgAwAABQAwBAAAAQAgAwAAAAQAIAMAAAUAMAQAAAEAIAMAAAAEACADAAAFADAEAAABACAGLQEAAAABRgEAAAABRwEAAAABSAEAAAABSQEAAAABSkAAAAABAQgAAAkAIAYtAQAAAAFGAQAAAAFHAQAAAAFIAQAAAAFJAQAAAAFKQAAAAAEBCAAACwAwAQgAAAsAMAYtAQBIACFGAQBIACFHAQBIACFIAQBIACFJAQBIACFKQABJACECAAAAAQAgCAAADgAgBi0BAEgAIUYBAEgAIUcBAEgAIUgBAEgAIUkBAEgAIUpAAEkAIQIAAAAEACAIAAAQACACAAAABAAgCAAAEAAgAwAAAAEAIA8AAAkAIBAAAA4AIAEAAAABACABAAAABAAgAxUAAEoAIBYAAEwAIBcAAEsAIAkqAABCADArAAAXABAsAABCADAtAQA0ACFGAQA0ACFHAQA0ACFIAQA0ACFJAQA0ACFKQAA2ACEDAAAABAAgAwAAFgAwFAAAFwAgAwAAAAQAIAMAAAUAMAQAAAEAIAsqAAA-ADArAAAdABAsAAA-ADAtAQAAAAEuAQA_ACEvAQA_ACEwAQA_ACExAABAACAyAABAACAzAABAACA0QABBACEBAAAAGgAgAQAAABoAIAsqAAA-ADArAAAdABAsAAA-ADAtAQA_ACEuAQA_ACEvAQA_ACEwAQA_ACExAABAACAyAABAACAzAABAACA0QABBACEDMQAARAAgMgAARAAgMwAARAAgAwAAAB0AIAMAAB4AMAQAABoAIAMAAAAdACADAAAeADAEAAAaACADAAAAHQAgAwAAHgAwBAAAGgAgCC0BAAAAAS4BAAAAAS8BAAAAATABAAAAATGAAAAAATKAAAAAATOAAAAAATRAAAAAAQEIAAAiACAILQEAAAABLgEAAAABLwEAAAABMAEAAAABMYAAAAABMoAAAAABM4AAAAABNEAAAAABAQgAACQAMAEIAAAkADAILQEASAAhLgEASAAhLwEASAAhMAEASAAhMYAAAAABMoAAAAABM4AAAAABNEAASQAhAgAAABoAIAgAACcAIAgtAQBIACEuAQBIACEvAQBIACEwAQBIACExgAAAAAEygAAAAAEzgAAAAAE0QABJACECAAAAHQAgCAAAKQAgAgAAAB0AIAgAACkAIAMAAAAaACAPAAAiACAQAAAnACABAAAAGgAgAQAAAB0AIAYVAABFACAWAABHACAXAABGACAxAABEACAyAABEACAzAABEACALKgAAMwAwKwAAMAAQLAAAMwAwLQEANAAhLgEANAAhLwEANAAhMAEANAAhMQAANQAgMgAANQAgMwAANQAgNEAANgAhAwAAAB0AIAMAAC8AMBQAADAAIAMAAAAdACADAAAeADAEAAAaACALKgAAMwAwKwAAMAAQLAAAMwAwLQEANAAhLgEANAAhLwEANAAhMAEANAAhMQAANQAgMgAANQAgMwAANQAgNEAANgAhDhUAADgAIBYAAD0AIBcAAD0AIDUBAAAAATYBAAAABDcBAAAABDgBAAAAATkBAAAAAToBAAAAATsBAAAAATwBADwAIUMBAAAAAUQBAAAAAUUBAAAAAQ8VAAA6ACAWAAA7ACAXAAA7ACA1gAAAAAE4gAAAAAE5gAAAAAE6gAAAAAE7gAAAAAE8gAAAAAE9AQAAAAE-AQAAAAE_AQAAAAFAgAAAAAFBgAAAAAFCgAAAAAELFQAAOAAgFgAAOQAgFwAAOQAgNUAAAAABNkAAAAAEN0AAAAAEOEAAAAABOUAAAAABOkAAAAABO0AAAAABPEAANwAhCxUAADgAIBYAADkAIBcAADkAIDVAAAAAATZAAAAABDdAAAAABDhAAAAAATlAAAAAATpAAAAAATtAAAAAATxAADcAIQg1AgAAAAE2AgAAAAQ3AgAAAAQ4AgAAAAE5AgAAAAE6AgAAAAE7AgAAAAE8AgA4ACEINUAAAAABNkAAAAAEN0AAAAAEOEAAAAABOUAAAAABOkAAAAABO0AAAAABPEAAOQAhCDUCAAAAATYCAAAABTcCAAAABTgCAAAAATkCAAAAAToCAAAAATsCAAAAATwCADoAIQw1gAAAAAE4gAAAAAE5gAAAAAE6gAAAAAE7gAAAAAE8gAAAAAE9AQAAAAE-AQAAAAE_AQAAAAFAgAAAAAFBgAAAAAFCgAAAAAEOFQAAOAAgFgAAPQAgFwAAPQAgNQEAAAABNgEAAAAENwEAAAAEOAEAAAABOQEAAAABOgEAAAABOwEAAAABPAEAPAAhQwEAAAABRAEAAAABRQEAAAABCzUBAAAAATYBAAAABDcBAAAABDgBAAAAATkBAAAAAToBAAAAATsBAAAAATwBAD0AIUMBAAAAAUQBAAAAAUUBAAAAAQsqAAA-ADArAAAdABAsAAA-ADAtAQA_ACEuAQA_ACEvAQA_ACEwAQA_ACExAABAACAyAABAACAzAABAACA0QABBACELNQEAAAABNgEAAAAENwEAAAAEOAEAAAABOQEAAAABOgEAAAABOwEAAAABPAEAPQAhQwEAAAABRAEAAAABRQEAAAABDDWAAAAAATiAAAAAATmAAAAAATqAAAAAATuAAAAAATyAAAAAAT0BAAAAAT4BAAAAAT8BAAAAAUCAAAAAAUGAAAAAAUKAAAAAAQg1QAAAAAE2QAAAAAQ3QAAAAAQ4QAAAAAE5QAAAAAE6QAAAAAE7QAAAAAE8QAA5ACEJKgAAQgAwKwAAFwAQLAAAQgAwLQEANAAhRgEANAAhRwEANAAhSAEANAAhSQEANAAhSkAANgAhCSoAAEMAMCsAAAQAECwAAEMAMC0BAD8AIUYBAD8AIUcBAD8AIUgBAD8AIUkBAD8AIUpAAEEAIQAAAAABSwEAAAABAUtAAAAAAQAAAAAAAAADFQAGFgAHFwAIAAAAAxUABhYABxcACAAAAAMVAA4WAA8XABAAAAADFQAOFgAPFwAQAQIBAgMBBQYBBgcBBwgBCQoBCgwCCw0DDA8BDRECDhIEERMBEhQBExUCGBgFGRkJGhsKGxwKHB8KHSAKHiEKHyMKICUCISYLIigKIyoCJCsMJSwKJi0KJy4CKDENKTIR"
 }
 config.compilerWasm = {
   getRuntime: async () => require('./query_compiler_fast_bg.js'),
