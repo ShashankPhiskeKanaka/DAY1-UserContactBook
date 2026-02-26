@@ -8,7 +8,8 @@ interface baseContact {
     phoneNumber : string,
     address : string,
     createdAt : Date,
-    deletedAt : Date | null
+    deletedAt : Date | null,
+    ownerId? : string
 }
 
 interface pageinationData {

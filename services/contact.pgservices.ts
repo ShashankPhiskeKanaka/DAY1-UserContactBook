@@ -1,6 +1,7 @@
 import { errorMessages } from "../constants/errorMessages.constants";
 import type { baseContact, pageinationData } from "../model/contact.model";
 import type { contactPgRepositoryClass } from "../repository/contact/contact.pgrepository";
+import { authUtil } from "../utils/auth.utils";
 import { serverError } from "../utils/error.utils";
 import { logActivity } from "../utils/logging.utils";
 
@@ -18,14 +19,14 @@ class contactPgServicesClass {
      * @async data 
      * @returns { Promise<baseContact> } containing id, name, email, phonenumber, address, createdAt
      */
-    createContact = async ( data : baseContact ) => {
-
+    createContact = async ( data : baseContact, token : string ) => {
+        const { id, role } = authUtil.decodeToken(token);
         // checks if another contact with the specified email exists or not
-        let contact = await this.contactMethods.checkExistence(data.name, data.email, data.phoneNumber);
+        let contact = await this.contactMethods.checkExistence(data.name, data.email, data.phoneNumber, id);
         if(contact?.id) throw new serverError( errorMessages.EXISTS.status , errorMessages.EXISTS.message );
 
         // creates the contact
-        contact = await this.contactMethods.create(data);
+        contact = await this.contactMethods.create(data, id);
 
         // logging the activity of contact creation
         logActivity.log("New user created");
@@ -48,7 +49,8 @@ class contactPgServicesClass {
      * @param sort 
      * @returns { Promise<pageinationData> } containing contact, nextCursor, hasMoreData
      */
-    getAll = async (limit : number | undefined, cursor : string | undefined, search : string | undefined, sort : string | undefined) => {
+    getAll = async (limit : number | undefined, cursor : string | undefined, search : string | undefined, sort : string | undefined, token : string) => {
+        const userId = authUtil.defineId(token);
 
         let lastCreatedAt = undefined; // Default to null, not undefined
         let lastId = undefined;
@@ -78,7 +80,7 @@ class contactPgServicesClass {
             limit = 10;
         }
 
-        const contacts = await this.contactMethods.getAll(limit, search, sort, lastCreatedAt, lastId);
+        const contacts = await this.contactMethods.getAll(limit, search, sort, lastCreatedAt, lastId, userId);
         logActivity.log("All users fetched");
         let nextCursor = "";
         if(contacts.length > 0) {
@@ -100,9 +102,10 @@ class contactPgServicesClass {
      * @param id : the id of the contact record
      * @returns Object : the returned value of type baseContact
      */
-    get = async ( id : string ) => {
-        const contact = await this.contactMethods.get(id);
-        if(!contact) throw new serverError(404, "User does not exist");
+    get = async ( cid : string, token : string ) => {
+        const userId = authUtil.defineId(token);
+        const contact = await this.contactMethods.get(cid, userId);
+        if(!contact) throw new serverError(404, "Contact does not exist");
         logActivity.log("User fetched using email");
 
         return contact
@@ -120,10 +123,10 @@ class contactPgServicesClass {
      * @param ip : the ip address of the client for audit logging
      * @returns Object : the object of type baseContact
      */
-    update = async ( data : baseContact, ip : string ) => {
-        const existingContact = await this.get(data.id);
-
-        const contact = await this.contactMethods.update(data);
+    update = async ( data : baseContact, ip : string, token : string ) => {
+        const userId = authUtil.defineId(token);
+        await this.get(data.id, token);
+        const contact = await this.contactMethods.update(data, userId);
         // await this.contactMethods.createAuditLog({
         //     model : "Contact",
         //     action : "UPDATE",
@@ -152,10 +155,10 @@ class contactPgServicesClass {
      * @param ip : the ip address of the client
      * @returns Object of type baseContact
      */
-    delete = async ( id : string, ip : string ) => {
-        await this.get(id);
-        const contact = await this.contactMethods.delete(id);
-        console.log("hit")
+    delete = async ( id : string, ip : string, token : string ) => {
+        await this.get(id, token);
+        const userId = authUtil.defineId(token);
+        const contact = await this.contactMethods.delete(id, userId);
         if(!contact) throw new serverError(404, "User does not exist");
 
         // await this.contactMethods.createAuditLog({

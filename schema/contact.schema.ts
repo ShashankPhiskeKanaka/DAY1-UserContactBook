@@ -6,10 +6,14 @@ const phoneRegex = /^\+[1-9]\d{0,2} \d{6,14}$/;
 
 const createContactSchema = z.object({
     body : z.object({
-        email : z.string({ error : errorMessages.VALIDATION.message }).trim().lowercase({ error : errorMessages.VALIDATION.message }).regex(emailRegex, { error : errorMessages.VALIDATION.message }),
-        name : z.string().optional(),
-        phoneNumber: z.string({ error : errorMessages.VALIDATION.message }).trim().regex(phoneRegex, { error : errorMessages.VALIDATION.message}),
+        email : z.string({ error : errorMessages.VALIDATION.message }).trim().lowercase({ error : errorMessages.VALIDATION.message }).regex(emailRegex, { error : errorMessages.VALIDATION.message }).optional(),
+        name : z.string({ error : "Please provide a contact name" }).trim(),
+        phoneNumber: z.string({ error : errorMessages.VALIDATION.message }).trim().regex(phoneRegex, { error : errorMessages.VALIDATION.message}).optional(),
         address : z.string({ error : errorMessages.VALIDATION.message }).optional(),
+    }),
+    cookies : z.object({
+        token : z.string({ error : "Please login" }).trim(),
+        refreshToken : z.string({ error : "Please login" })
     })
 })
 
@@ -20,12 +24,20 @@ const contactSchema = z.object({
         name : z.string({ error : "Please provide a name" }).optional(),
         phoneNumber: z.string({ error: "Phone number is required" }).trim().regex(phoneRegex, { error : errorMessages.VALIDATION.message }).optional(),
         address : z.string({ error : "Please provide an address" }).optional()
+    }),
+    cookies : z.object({
+        token : z.string({ error : "Please login" }).trim(),
+        refreshToken : z.string({ error : "Please login" })
     })
 })
 
 const contactFetchSchema = z.object({
     params : z.object({
         id : z.string({ error : "Id is required" }).trim()
+    }),
+    cookies : z.object({
+        token : z.string({ error : "Please login" }).trim(),
+        refreshToken : z.string({ error : "Please login" })
     })
 })
 

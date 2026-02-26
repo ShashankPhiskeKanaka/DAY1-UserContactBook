@@ -11,7 +11,7 @@ class contactControllerClass {
 
     // creates user, hands over the body object from req to the service layer
     createContact = async ( req : Request, res : Response ) => { 
-        const contact = await this.contactService.createContact(req.body);
+        const contact = await this.contactService.createContact(req.body, req.cookies.token);
         const data = contactSerializer.serialize(contact);
 
         return res.status(201).json({
@@ -23,7 +23,7 @@ class contactControllerClass {
     // fetches single user using email, extracts the email from the req body and passes it to the service layer 
     getContact = async ( req : Request, res : Response ) => {
         const id = req.params?.id?.toString() ?? "";
-        const contact = await this.contactService.get(id);
+        const contact = await this.contactService.get(id, req.cookies.token);
         const data = contactSerializer.serialize(contact);
         return res.json({
             success : true,
@@ -39,7 +39,7 @@ class contactControllerClass {
         const search = req.query.search?.toString() ?? undefined;
         const sort = req.query.sort?.toString() ??  undefined;
 
-        const data = await this.contactService.getAll(limit, cursor , search, sort);
+        const data = await this.contactService.getAll(limit, cursor , search, sort, req.cookies.token);
         // const result = contactSerializer.serializeAll(data.contacts);
         return res.json({
             success : true,
@@ -53,7 +53,7 @@ class contactControllerClass {
 
         const ip = requestIp.getClientIp(req);
 
-        const contact = await this.contactService.update(req.body, ip ?? "");
+        const contact = await this.contactService.update(req.body, ip ?? "", req.cookies.token);
         const data = contactSerializer.serialize(contact);
 
         return res.json({
@@ -68,7 +68,7 @@ class contactControllerClass {
         const id = req.params?.id?.toString() ?? "";
         const ip = requestIp.getClientIp(req);
 
-        const contact = await this.contactService.delete(id, ip ?? "");
+        const contact = await this.contactService.delete(id, ip ?? "", req.cookies.token);
         const data = contactSerializer.serialize(contact);
 
         return res.json({

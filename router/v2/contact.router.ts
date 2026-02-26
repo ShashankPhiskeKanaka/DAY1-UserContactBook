@@ -18,6 +18,6 @@ contactRouter.delete("/:id" , errorHandler.controllerWrapper(validate(contactFet
 contactRouter.patch("/", errorHandler.controllerWrapper(validate(contactSchema)) ,errorHandler.controllerWrapper(contactController.updateContact));
 
 // creates an user, validates if data in request body is provided or not ( email, phonenumber )
-contactRouter.post("/", errorHandler.controllerWrapper(contactController.createContact));
+contactRouter.post("/", errorHandler.controllerWrapper(validate(createContactSchema)), errorHandler.controllerWrapper(contactController.createContact));
 
 export { contactRouter as v2ContactRouter };

@@ -11,7 +11,8 @@ class contactSerializer {
             phonenumber : contact.phoneNumber,
             email : contact.email,
             address : contact.address,
-            createdAt : contact.createdAt
+            createdAt : contact.createdAt,
+            ownerId : contact.ownerId
         }
     }
 

@@ -11,7 +11,8 @@ dotenv.config({
 const config = {
     env,
     port : process.env.PORT || 5000,
-    dburl : process.env.DATABASE_URL!
+    dburl : process.env.DATABASE_URL!,
+    secret : process.env.SECRET
 }
 
 export { config }

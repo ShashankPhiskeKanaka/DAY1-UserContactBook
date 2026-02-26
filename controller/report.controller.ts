@@ -5,7 +5,7 @@ class reportControllerClass {
     constructor( private reportServices : reportServicesClass ) {}
 
     report = async ( req : Request, res : Response ) => {
-        const report = await this.reportServices.report();
+        const report = await this.reportServices.report(req.cookies.token);
         return res.json({
             success : true,
             data : report

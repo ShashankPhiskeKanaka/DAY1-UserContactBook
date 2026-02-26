@@ -1,4 +1,6 @@
 import type { reportsPrismaRepositoryClass } from "../repository/reports/reports.prismarepository";
+import { authUtil } from "../utils/auth.utils";
+import { serverError } from "../utils/error.utils";
 import { logActivity } from "../utils/logging.utils";
 import { extractDomain, findMostCommonDomain } from "../utils/report.utils";
 
@@ -14,21 +16,10 @@ class reportServicesClass {
      * @returns { Promise<Object> } containing totalContacts, totalContactsAddedToday, contactsAddedToday, mostCommonDomain, countOfMostCommonDomain
      */
 
-    report = async () => {
-        const date = new Date()
-        const day = date.getDay();
-
-        // fetching all the contacts
+    report = async (token : string) => {
+        const { id, role } = authUtil.decodeToken(token)
+        if(role != "admin") throw new serverError(400, "Unauthrorized");
         const data = await this.reportMethods.get();
-        // identifying the contacts created today
-        // const contactsAddedToday = contacts.filter((c) => c.createdAt.getDay() == day);
-        // // extracting the domains
-        // const domains = contacts.map((c) => extractDomain(c.email ?? ""));
-
-        // // determining the most common domain along with its count
-        // const { maxCount, mostCommon } = findMostCommonDomain(domains);
-
-        // logging the activity
         logActivity.log("Contacts report generated");
 
         return {
