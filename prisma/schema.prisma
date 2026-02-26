@@ -16,10 +16,11 @@ datasource db {
 model Contact {
   id String @id @default(uuid())
   name String @default("NA")
-  email String @unique
+  email String
   phonenumber String
   address String @default("NA")
   createdAt DateTime @default(now())
+  deletedAt DateTime?
 
   @@map("contact")
 }

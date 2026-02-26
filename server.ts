@@ -4,18 +4,18 @@ import helmet from "helmet";
 import { connectDb } from "./db/db";
 import { globalErrorHandler } from "./factory/error.factory";
 import { contactRouter } from "./router/v1/contact.router";
+import { v2ContactRouter } from "./router/v2/contact.router";
 import { logger } from "./middleware/logger";
 import { config } from "./config/env";
-import { connectPrisma } from "./db/prisma";
 import { reportRouter } from "./router/v1/report.router";
 import { contactsRouter } from "./router/v1/contacts.router";
+import { v2ReportRouter } from "./router/v2/report.router";
+import { v2ContactsRouter } from "./router/v2/contacts.router";
 
 const app = express();
 app.use(express.json());
 app.use(cookieparser());
 app.use(helmet());
-
-connectPrisma();  
 
 app.get("/", (req, res) => {
     res.send("Hello");
@@ -25,6 +25,10 @@ app.use(logger);
 app.use("/v1/contact", contactRouter);
 app.use("/v1/contacts", contactsRouter);
 app.use("/v1/reports", reportRouter);
+
+app.use("/v2/contact", v2ContactRouter);
+app.use("/v2/contacts", v2ContactsRouter);
+app.use("/v2/reports", v2ReportRouter);
 
 app.use(globalErrorHandler.handleError);
 

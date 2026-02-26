@@ -8,16 +8,17 @@ const createContactSchema = z.object({
     body : z.object({
         email : z.string({ error : errorMessages.VALIDATION.message }).trim().lowercase({ error : errorMessages.VALIDATION.message }).regex(emailRegex, { error : errorMessages.VALIDATION.message }),
         name : z.string().optional(),
-        phonenumber: z.string({ error : errorMessages.VALIDATION.message }).trim().regex(phoneRegex, { error : errorMessages.VALIDATION.message}),
+        phoneNumber: z.string({ error : errorMessages.VALIDATION.message }).trim().regex(phoneRegex, { error : errorMessages.VALIDATION.message}),
         address : z.string({ error : errorMessages.VALIDATION.message }).optional(),
     })
 })
 
 const contactSchema = z.object({
     body : z.object({
-        email : z.string({ error : "Email is required" }).trim().lowercase({ error : errorMessages.VALIDATION.message }).regex(emailRegex, { error : errorMessages.VALIDATION.message }),
+        id : z.string({ error : "Please provide an id" }).trim(),
+        email : z.string({ error : "Email is required" }).trim().lowercase({ error : errorMessages.VALIDATION.message }).regex(emailRegex, { error : errorMessages.VALIDATION.message }).optional(),
         name : z.string({ error : "Please provide a name" }).optional(),
-        phonenumber: z.string({ error: "Phone number is required" }).trim().regex(phoneRegex, { error : errorMessages.VALIDATION.message }).optional(),
+        phoneNumber: z.string({ error: "Phone number is required" }).trim().regex(phoneRegex, { error : errorMessages.VALIDATION.message }).optional(),
         address : z.string({ error : "Please provide an address" }).optional()
     })
 })

@@ -1,88 +1,159 @@
-import { errorMessages } from "../constants/errorMessages.constants";
-import { prisma } from "../db/prisma";
-import type { baseContact } from "../model/contact.model";
-import type { contactPrismaRepositoryClass } from "../repository/contact/contact.prismarepository";
-import { serverError } from "../utils/error.utils";
-import { logActivity } from "../utils/logging.utils";
+// import { errorMessages } from "../constants/errorMessages.constants";
+// import { prisma } from "../db/prisma";
+// import type { baseContact, pageinationData } from "../model/contact.model";
+// import type { contactPrismaRepositoryClass } from "../repository/contact/contact.prismarepository";
+// import { serverError } from "../utils/error.utils";
+// import { logActivity } from "../utils/logging.utils";
 
-// user service class
-// email is used as an unique identifier
+// class contactServicesClass {
+//     constructor ( private contactMethods : contactPrismaRepositoryClass ) {} // repository class passed in as parameter
 
-class contactServicesClass {
-    constructor ( private contactMethods : contactPrismaRepositoryClass ) {} // repository class passed in as parameter
+//     /**
+//      * 
+//      * creates a contact
+//      * 
+//      * intially checks if contact with similar email is available or not and then proceeds
+//      * 
+//      * logs the creation of new contact
+//      * 
+//      * @async data 
+//      * @returns { Promise<baseContact> } containing id, name, email, phonenumber, address, createdAt
+//      */
+//     createContact = async ( data : baseContact ) => {
 
-    // creates user, checks if user already exists or not and then creates it, returns a baseUser object
-    createContact = async ( data : baseContact ) => {
-        let contact = await this.contactMethods.get(data.email);
-        if(contact.email) throw new serverError( errorMessages.EXISTS.status , errorMessages.EXISTS.message );
-        contact = await this.contactMethods.create(data);
+//         // checks if another contact with the specified email exists or not
+//         let contact = await this.contactMethods.checkExistence(data.email ?? "");
+//         if(contact.email) throw new serverError( errorMessages.EXISTS.status , errorMessages.EXISTS.message );
 
-        logActivity.log("New user created");
+//         // creates the contact
+//         contact = await this.contactMethods.create(data);
 
-        return contact;
-    }
+//         // logging the activity of contact creation
+//         logActivity.log("New user created");
 
-    // fetches all users, returns array of baseUsers
-    getAll = async ( cursor : string | undefined, limit : number | undefined, search : string | undefined, email : string | undefined, sort : string | undefined ) => {
-        const contacts = await this.contactMethods.getAll(cursor, limit, search, email, sort);
-        logActivity.log("All users fetched");
-        return contacts;
-    }
+//         return contact;
+//     }
 
-    // fetches a single user using email, email is passed on to the repository, returns baseUser object
-    get = async ( id : string ) => {
-        const contact = await this.contactMethods.get(id);
-        if(!contact.email) throw new serverError(404, "User does not exist");
+//     /**
+//      *
+//      * fetches the available contacts
+//      * 
+//      * fetches contacts according the the provided limit, cursor, search, email and sorting order
+//      * 
+//      * logs the activity of fetching all contacts
+//      *  
+//      * @param cursor 
+//      * @param limit 
+//      * @param search 
+//      * @param email 
+//      * @param sort 
+//      * @returns { Promise<pageinationData> } containing contact, nextCursor, hasMoreData
+//      */
+//     getAll = async ( cursor : string | undefined, limit : number | undefined, search : string | undefined, email : string | undefined, sort : string | undefined ) => {
+//         const contacts = await this.contactMethods.getAll(cursor, limit, search, email, sort);
+//         logActivity.log("All users fetched");
+//         return contacts;
+//     }
 
-        logActivity.log("User fetched using email");
+//     /**
+//      * 
+//      * fetches a single contact from the db using the id
+//      * 
+//      * logs the error if no contact is found
+//      * 
+//      * logs the activity of the contact being fetched if the contact exists
+//      * 
+//      * @param id : the id of the contact record
+//      * @returns Object : the returned value of type baseContact
+//      */
+//     get = async ( id : string ) => {
+//         const contact = await this.contactMethods.get(id);
+//         if(!contact.email) throw new serverError(404, "User does not exist");
 
-        return contact
-    }
+//         logActivity.log("User fetched using email");
 
-    // updates an user using email, data is passed on to the repository, returns baseUser
-    update = async ( data : baseContact, ip : string ) => {
-        const existingContact = await this.get(data.id);
+//         return contact
+//     }
 
-        const contact = await this.contactMethods.update(data);
-        await this.contactMethods.createAuditLog({
-            model : "Contact",
-            action : "UPDATE",
-            recordId : data.id,
-            before : existingContact,
-            after : contact,
-            metadata : {
-                ip : ip
-            }
-        })
+//     /**
+//      * 
+//      * updates the contact record according to the id
+//      * 
+//      * creates and auditlog if the contact is available and successfully updated
+//      * 
+//      * logs the activity of contact being updated
+//      * 
+//      * @param data : the data object of type baseContact
+//      * @param ip : the ip address of the client for audit logging
+//      * @returns Object : the object of type baseContact
+//      */
+//     update = async ( data : baseContact, ip : string ) => {
+//         const existingContact = await this.get(data.id);
 
-        logActivity.log("User updated");
+//         const contact = await this.contactMethods.update(data);
+//         await this.contactMethods.createAuditLog({
+//             model : "Contact",
+//             action : "UPDATE",
+//             recordId : data.id,
+//             before : existingContact,
+//             after : contact,
+//             metadata : {
+//                 ip : ip
+//             }
+//         })
 
-        return contact
-    }
+//         logActivity.log("Contact updated");
 
-    // deletes an user, email is passed on to repository, returns baseUser
-    delete = async ( id : string, ip : string ) => {
-        await this.get(id);
-        const contact = await this.contactMethods.delete(id);
+//         return contact
+//     }
 
-        await this.contactMethods.createAuditLog({
-            model : "Contact",
-            action : "DELETE",
-            recordId : id,
-            before : contact,
-            after : null,
-            metadata : {
-                ip : ip
-            }
-        })
+//     /**
+//      * 
+//      * soft deletes a contact record from the db depending on the id
+//      * 
+//      * creates an audit log if the contact is available and successfully deleted
+//      * 
+//      * logs the activity of deletion being performed
+//      * 
+//      * @param id : the id of the record being deleted
+//      * @param ip : the ip address of the client
+//      * @returns Object of type baseContact
+//      */
+//     delete = async ( id : string, ip : string ) => {
+//         await this.get(id);
+//         const contact = await this.contactMethods.delete(id);
+//         if(!contact.email) throw new serverError(404, "User does not exist");
 
-        if(!contact.email) throw new serverError(404, "User does not exist");
+//         await this.contactMethods.createAuditLog({
+//             model : "Contact",
+//             action : "DELETE",
+//             recordId : id,
+//             before : contact,
+//             after : null,
+//             metadata : {
+//                 ip : ip
+//             }
+//         })
 
-        logActivity.log("User deleted");
+//         logActivity.log("User deleted");
 
-        return contact
-    }
+//         return contact
+//     }
 
-}
+//     /**
+//      * 
+//      * fetches all the contacts which have been soft deleted
+//      * 
+//      * logs the activity of fetching deleted contacts
+//      * 
+//      * @returns 
+//      */
+//     getDeleted = async () => {
+//         const contacts = await this.contactMethods.getDeleted();
+//         logActivity.log("All deleted contacts fetched");
+//         return contacts;
+//     }
 
-export { contactServicesClass };
+// }
+
+// export { contactServicesClass };

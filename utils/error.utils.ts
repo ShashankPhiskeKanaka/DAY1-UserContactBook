@@ -1,9 +1,19 @@
 import type { NextFunction, Request, Response } from "express";
 import { logActivity } from "./logging.utils";
 
-// error handler , controllers are wrapped inside this so that the serverError that they will throw are caught and passed the
-// global error handler
+/**
+ * error handler which contains the async wrapper for all async controllers
+ */
 class errorHandlerClass {
+    /**
+     * async controller wrapper, ensures that all the async errors occuring are caught and passed to the next function
+     * 
+     * eliminates the need for repeated try catch blocks
+     * 
+     * @param fn - the async controller
+     * @returns 
+     */
+
     controllerWrapper = (fn : any) => {
         return ( req : Request, res : Response, next : NextFunction ) => {
             Promise.resolve(fn(req, res, next)).catch(next);
@@ -11,8 +21,19 @@ class errorHandlerClass {
     }
 }
 
-// global error handler, receives the serverError thrown and provides a response back and logs the error
 class globalErrorHandlerClass {
+    /**
+     * 
+     * global error handler method, catches incoming errors and logs them with the help of logActivity util
+     * 
+     * returns an error response back to the client
+     * 
+     * @param err 
+     * @param req 
+     * @param res 
+     * @param next 
+     * @returns 
+     */
     handleError = (err : any, req : Request, res : Response, next : NextFunction) => {
         logActivity.error(err.status ?? 500, err.message);
 
@@ -23,15 +44,29 @@ class globalErrorHandlerClass {
     }
 }
 
-// custom serverError class
+/**
+ * custom error class for handling failures and errors
+ * 
+ * extends the native Error class
+ * 
+ * ensures that the prototype chain is correctly maintained
+ * 
+ */
 class serverError extends Error{
     public status : number;
+    /**
+     * 
+     * @param status : the HTTP status code
+     * @param message : the human readable error message
+     */
     constructor  ( status : number, message : string ) {
         super(message);
         this.status = status;
         this.message = message;
 
+        // restores the prototype chain
         Object.setPrototypeOf(this, new.target.prototype);
+        // captures the stack trace
         Error.captureStackTrace(this);
     }
 }

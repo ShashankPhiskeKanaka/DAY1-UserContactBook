@@ -5,9 +5,10 @@ interface baseContact {
     id : string,
     name : string,
     email : string,
-    phonenumber : string,
+    phoneNumber : string,
     address : string,
-    createdAt : Date
+    createdAt : Date,
+    deletedAt : Date | null
 }
 
 interface pageinationData {
@@ -39,7 +40,7 @@ interface mongoUser extends baseContact, mongoose.Document{};
 const userModel = new mongoose.Schema<mongoUser>({
     name : { type : String, defualt : "NA" },
     email : { type : String, unique : true },
-    phonenumber : { type : String, unique : true },
+    phoneNumber : { type : String, unique : true },
     address : { type : String, default : "NA" }
 })
 

@@ -1,5 +1,5 @@
 import { reportControllerClass } from "../controller/report.controller";
-import { contactPrismaRepositoryClass } from "../repository/contact/contact.prismarepository";
+// import { contactPrismaRepositoryClass } from "../repository/contact/contact.prismarepository";
 import { reportsPrismaRepositoryClass } from "../repository/reports/reports.prismarepository";
 import { reportServicesClass } from "../services/report.services";
 

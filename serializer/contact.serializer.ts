@@ -8,7 +8,7 @@ class contactSerializer {
         return {
             id : contact.id,
             name : contact.name,
-            phonenumber : contact.phonenumber,
+            phonenumber : contact.phoneNumber,
             email : contact.email,
             address : contact.address,
             createdAt : contact.createdAt

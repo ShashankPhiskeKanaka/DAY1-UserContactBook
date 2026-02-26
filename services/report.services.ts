@@ -1,4 +1,3 @@
-import type { contactPrismaRepositoryClass } from "../repository/contact/contact.prismarepository";
 import type { reportsPrismaRepositoryClass } from "../repository/reports/reports.prismarepository";
 import { logActivity } from "../utils/logging.utils";
 import { extractDomain, findMostCommonDomain } from "../utils/report.utils";
@@ -6,24 +5,38 @@ import { extractDomain, findMostCommonDomain } from "../utils/report.utils";
 class reportServicesClass {
     constructor ( private reportMethods : reportsPrismaRepositoryClass ) {}
     
+    /**
+     * Generates a summary report of contacts data
+     * 
+     * Fetches all contacts to calculate their count, daily growth and identify the most common domain
+     * 
+     * @async
+     * @returns { Promise<Object> } containing totalContacts, totalContactsAddedToday, contactsAddedToday, mostCommonDomain, countOfMostCommonDomain
+     */
+
     report = async () => {
         const date = new Date()
         const day = date.getDay();
 
-        const contacts = await this.reportMethods.get();
-        const contactsAddedToday = contacts.filter((c) => c.createdAt.getDay() == day);
-        const domains = contacts.map((c) => extractDomain(c.email));
+        // fetching all the contacts
+        const data = await this.reportMethods.get();
+        // identifying the contacts created today
+        // const contactsAddedToday = contacts.filter((c) => c.createdAt.getDay() == day);
+        // // extracting the domains
+        // const domains = contacts.map((c) => extractDomain(c.email ?? ""));
 
-        const { maxCount, mostCommon } = findMostCommonDomain(domains);
+        // // determining the most common domain along with its count
+        // const { maxCount, mostCommon } = findMostCommonDomain(domains);
 
+        // logging the activity
         logActivity.log("Contacts report generated");
 
         return {
-            totalContacts : contacts.length,
-            totalContactsAddedToday : contactsAddedToday.length,
-            contactsAddedToday : contactsAddedToday,
-            mostCommonDomain : mostCommon,
-            countOfMostCommonDomain : maxCount
+                contactsAddedToday : data.contactsAddedToday,
+                totalContacts : data.totalContacts,
+                mostCommonDomain : data.mostCommonDomain,
+                domainCount : data.domainCount,
+                totalDeletedContacts : data.totalDeletedContacts
         }
 
     }

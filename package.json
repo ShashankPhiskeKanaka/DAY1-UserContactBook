@@ -8,16 +8,22 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "dev": "nodemon --exec tsx server.ts"
+    "dev": "nodemon --exec tsx server.ts",
+    "migrate:create": "node-pg-migrate create",
+    "migrate:up": "node-pg-migrate up",
+    "migrate:down": "node-pg-migrate down"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.3.0",
+    "@types/pg": "^8.16.0",
     "@types/request-ip": "^0.0.41",
     "jest": "^30.2.0",
+    "node-pg-migrate": "^8.0.4",
     "nodemon": "^3.1.14",
+    "pg": "^8.18.0",
     "prisma": "^7.4.1",
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",

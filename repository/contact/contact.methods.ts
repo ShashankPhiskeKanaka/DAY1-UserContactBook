@@ -4,11 +4,10 @@ import type { baseContact, pageinationData } from "../../model/contact.model";
 
 abstract class contactMethodsClass {
     abstract create ( data : baseContact ) : Promise<baseContact>;
-    abstract getAll ( cursor : string | undefined, limit : number | undefined, search : string | undefined, email : string | undefined, sort : string | undefined ) : Promise<pageinationData>;
+    abstract getAll (limit : number | undefined, search : string | undefined, sort : string | undefined, lastCreatedAt : string | undefined, lastId : string | undefined) : Promise<baseContact[]>;
     abstract get ( id : string ) : Promise<baseContact>;
     abstract update (data : baseContact) : Promise<baseContact>;
     abstract delete ( id : string ) : Promise<baseContact>;
-    abstract createAuditLog ( data : any ) : Promise<any>;
 }
 
 export { contactMethodsClass };
