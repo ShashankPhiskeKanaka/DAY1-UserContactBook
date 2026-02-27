@@ -3,6 +3,15 @@ import { serverError } from "../../utils/error.utils";
 import { authUtil } from "../../utils/auth.utils";
 import crypto from "crypto"
 
+interface refreshTokenData {
+    id? : string,
+    userId? : string,
+    token? : string,
+    expiresAt? : Date,
+    familyId? : string,
+    isUsed? : boolean
+}
+
 class tokenPgRepositoryClass {
     create = async (userId : string, role : string) => {
         const familyId = crypto.randomUUID();
@@ -47,12 +56,12 @@ class tokenPgRepositoryClass {
     }
 
     get = async (token : string) : Promise<any> => {
-        const refreshToken = await pool.query(`SELECT * FROM "refreshTokens" WHERE ( token = $1 )`, [token]);
-        return refreshToken;
+        const res = await pool.query(`SELECT * FROM "refreshTokens" WHERE ( token = $1 )`, [token]);
+        return res.rows[0];
     }
 
-    deleteRefreshToken = async (familyId : string) => {
-        await pool.query(`DELETE FROM "refreshTokens" WHERE familyId = $1`, [familyId]);
+    deleteRefreshToken = async (id : string) => {
+        await pool.query(`DELETE FROM "refreshTokens" WHERE "userId" = $1`, [id]);
         return;
     }
 }

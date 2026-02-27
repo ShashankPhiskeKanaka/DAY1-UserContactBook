@@ -1,7 +1,9 @@
 import type { baseContact, pageinationData } from "../../model/contact.model";
 
-// defined abstract class and methods that will be used by the repositories
-
+/**
+ * Abstract class for contacts repository layer
+ * the necessary methods are defined here
+ */
 abstract class contactMethodsClass {
     abstract create ( data : baseContact, userId : string ) : Promise<baseContact>;
     abstract getAll (limit : number | undefined, search : string | undefined, sort : string | undefined, lastCreatedAt : string | undefined, lastId : string | undefined, userId : string | undefined) : Promise<baseContact[]>;

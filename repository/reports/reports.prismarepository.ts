@@ -3,8 +3,21 @@ import { pool } from "../../db/postgres";
 import type { baseContact } from "../../model/contact.model";
 import { reportsMethodsClass } from "./reports.methods";
 
+/**
+ * Reports repository which used postgres by using the pool from the pg-node module
+ * extends the reports abstract methods class for the necessary methods
+ */
 class reportsPrismaRepositoryClass extends reportsMethodsClass {
+    /**
+     * Generates a report by fetching all the contacts from the db
+     * 
+     * @returns 
+     */
     get = async () : Promise<any> => {
+        /**
+         * SQL query :
+         * generates count of total contacts added today, total active contact, total deleted contacts, most common domain and its count
+         */
         const query = 
             `WITH "todayStats" AS (
                 SELECT COUNT (*) as "addedToday"
@@ -37,8 +50,9 @@ class reportsPrismaRepositoryClass extends reportsMethodsClass {
             ORDER BY "domainCount" DESC
             LIMIT 1;`;
         
+        // executes the query using the pool
         const { rows } = await pool.query(query);
-        console.log(rows);
+        // returns default values to the service layer if not data is found
         if(rows.length == 0){
             return {
                 contactsAddedToday : 0,
@@ -48,7 +62,7 @@ class reportsPrismaRepositoryClass extends reportsMethodsClass {
                 totalDeletedContacts : 0
             }
         }
-
+        // returns the generated report back to the report service layer
         return rows[0];
     }
 }

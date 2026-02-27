@@ -1,7 +1,12 @@
 import { config } from "../config/env";
 import mongoose from "mongoose";
 
-// mongodb connection methods
+/**
+ * MongoDB connection module
+ * 
+ * uses mongoose.connect and passes the url for db connection from the config
+ * logs the successfull connection or the error occurred.
+ */
 const connectDb = async () => {
     try {
         await mongoose.connect(config.dburl ?? "");

@@ -1,6 +1,5 @@
 import mongoose from "mongoose"
 
-// this interface is passed in as datatype for methods
 interface baseContact {
     id : string,
     name : string,

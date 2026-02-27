@@ -1,6 +1,9 @@
 import type { baseContact } from "../model/contact.model";
 
-// serialized the data that will be sent in response
+/**
+ * Serializer class for contacts
+ * serialize method for single contacts and serializeAll method for group of contacts
+ */
 class contactSerializer {
 
     // serializes a single user
