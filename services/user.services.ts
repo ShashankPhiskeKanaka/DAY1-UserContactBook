@@ -14,13 +14,14 @@ class userServicesClass {
      * @returns 
      */
     create = async (name : string, password : string, role : string) => {
+        const roles = ["admin", "user"]
         // hands over the normal password to the hashPass module from authUtil and takes a hashed Password
         const hashedPass = await authUtil.hashPass(password);
         // uses the get method from user repository to check if the user already exists with the name
         const existing = await this.userMethods.get(name);
         if(existing) throw new serverError(400, "User already exists");
         // if no role provided then defines a default "user" role
-        if(!role) {
+        if(!role || !roles.includes(role)) {
             role = "user"
         }
         // finally hands over the data to the register methods from user repository to create the user

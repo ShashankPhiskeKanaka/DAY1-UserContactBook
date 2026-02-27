@@ -11,20 +11,43 @@ interface refreshTokenData {
     familyId? : string,
     isUsed? : boolean
 }
+/**
+ * Token repository, uses postgres as db via pool from pg-node package
+ * 
+ */
 
 class tokenPgRepositoryClass {
+    /**
+     * Creates a refreshToken
+     * 
+     * @param userId 
+     * @param role 
+     * @returns 
+     */
     create = async (userId : string, role : string) => {
+        // generating a familyId
         const familyId = crypto.randomUUID();
+        // expiresAt value
         const expiresAt = new Date();
+        // generating a random token to be used as a refresh token
         const refreshToken = crypto.randomBytes(40).toString("hex");
+        // setting the expiration date to 7days
         expiresAt.setDate(expiresAt.getDate() + 7);
 
+        /**
+         * SQL query :
+         * creates a new refresh token
+         * uses parameterized query to prevent injection attacks
+         */
         const query = `
             INSERT INTO "refreshTokens" ( "userId", token, "expiresAt", "familyId" ) values ($1, $2, $3, $4) RETURNING *;
         `;
         const values = [ userId, refreshToken, expiresAt, familyId ];
+        // executes the query along with the values using the pool
         const res = await pool.query(query, values);
+        // generates a new access token for the client
         const token = authUtil.generateToken(userId, role);
+        // sends back the refreshToken and the access token back to the auth service layer
         return { token, refreshToken }
     }
 
@@ -60,8 +83,13 @@ class tokenPgRepositoryClass {
         return res.rows[0];
     }
 
-    deleteRefreshToken = async (id : string) => {
+    deleteRefreshTokenUser = async (id : string) => {
         await pool.query(`DELETE FROM "refreshTokens" WHERE "userId" = $1`, [id]);
+        return;
+    }
+
+    deleteRefreshTokenFamily = async (id : string) => {
+        await pool.query(`DELETE FROM "refreshTokens" WHERE "familyId" = $1`, [id]);
         return;
     }
 }

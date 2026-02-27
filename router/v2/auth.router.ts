@@ -13,7 +13,7 @@ authRouter.post("/forget", errorHandler.controllerWrapper(validate(forgetSchema)
 authRouter.patch("/:token", errorHandler.controllerWrapper(validate(changePassSchema)), errorHandler.controllerWrapper(authController.changePass));
 
 authRouter.use(errorHandler.controllerWrapper(authorize));
-authRouter.get("/", errorHandler.controllerWrapper(validate(authSchema)), errorHandler.controllerWrapper(authController.logout));
+authRouter.get("/:flag", errorHandler.controllerWrapper(validate(authSchema)), errorHandler.controllerWrapper(authController.logout));
 authRouter.get("/refresh", errorHandler.controllerWrapper(validate(authSchema)), errorHandler.controllerWrapper(authController.refreshToken))
 
 export { authRouter };

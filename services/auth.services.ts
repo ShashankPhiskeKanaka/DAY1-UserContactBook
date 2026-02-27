@@ -82,9 +82,15 @@ class authServicesClass {
         return data;
     }    
 
-    deleteRefreshToken = async ( refreshToken : string ) => {
+    deleteRefreshTokenUser = async ( refreshToken : string ) => {
         const data = await this.tokenMethods.get(refreshToken);        
-        await this.tokenMethods.deleteRefreshToken(data.userId);
+        await this.tokenMethods.deleteRefreshTokenUser(data.userId);
+        return;
+    }
+
+    deleteRefreshTokenFamily = async ( refreshToken : string ) => {
+        const data = await this.tokenMethods.get(refreshToken);        
+        await this.tokenMethods.deleteRefreshTokenFamily(data.familyId);
         return;
     }
 

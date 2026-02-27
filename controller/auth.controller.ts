@@ -34,7 +34,13 @@ class authControllerClass {
      */
     logout = async ( req : Request, res :Response ) => {
         // clears the access token and the refresh token from the cookies
-        await this.authServices.deleteRefreshToken(req.cookies.refreshToken);
+        const flag = req.params.flag === "true";
+        if(flag){
+            await this.authServices.deleteRefreshTokenUser(req.cookies.refreshToken);
+        }else{
+            await this.authServices.deleteRefreshTokenFamily(req.cookies.refreshToken)
+        }
+        
         res.clearCookie("token");
         res.clearCookie("refreshToken");
         // sends a response back to the client along with the message and a success value
@@ -97,6 +103,7 @@ class authControllerClass {
             message : "Success"
         })
     }
+    
 }
 
 export { authControllerClass }
