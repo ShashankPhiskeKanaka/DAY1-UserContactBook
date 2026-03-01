@@ -12,7 +12,10 @@ const config = {
     env,
     port : process.env.PORT || 5000,
     dburl : process.env.DATABASE_URL!,
-    secret : process.env.SECRET
+    secret : process.env.SECRET,
+    file_cloud_name : process.env.FILE_CLOUD_NAME || "",
+    file_api_key : process.env.FILE_API_KEY || "",
+    file_api_secret : process.env.FILE_API_SECRET || ""
 }
 
 export { config }

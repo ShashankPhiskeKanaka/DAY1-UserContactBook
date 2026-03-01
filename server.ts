@@ -14,11 +14,15 @@ import { v2ContactsRouter } from "./router/v2/contacts.router";
 import { authRouter } from "./router/v2/auth.router";
 import { userRouter } from "./router/v2/user.router";
 import { authorize } from "./middleware/authorize";
+import { cloudinaryConfig } from "./db/cloudinary";
+import { fileRouter } from "./router/v2/file.router";
 
 const app = express();
 app.use(express.json());
 app.use(cookieparser());
 app.use(helmet());
+
+cloudinaryConfig();
 
 app.get("/", (req, res) => {
     res.send("Hello");
@@ -31,6 +35,7 @@ app.use(logger);
 
 app.use("/v2/auth", authRouter);
 app.use("/v2/user", userRouter);
+app.use("/v2/file", fileRouter);
 
 app.use(errorHandler.controllerWrapper(authorize));
 app.use("/v2/contact", v2ContactRouter);

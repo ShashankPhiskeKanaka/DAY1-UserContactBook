@@ -18,6 +18,7 @@ const authorize = async (req : Request, res : Response, next : NextFunction) => 
     // if id and role are not decoded then throws an error
     if(!id || !role) throw new serverError(400, "Please login");
     // forwards the request if everything checks out
+    req.user = { id, role };
     next();
 }
 
